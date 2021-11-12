@@ -4,11 +4,11 @@ const cors = require("cors");
 
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
+const ObjectId = require("mongodb").ObjectId;
 
 app.use(cors());
 app.use(express.json());
 const port = process.env.PORT || 8000;
-const ObjectId = require("mongodb").ObjectId;
 
 const uri = ` mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rhkgk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
@@ -50,6 +50,15 @@ async function run() {
       const cars = await cursor.toArray();
 
       res.send(cars);
+    });
+
+    // POST USERS
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await usersCollection.insertOne(user);
+
+      res.json(result);
     });
 
     // new added code
@@ -107,14 +116,6 @@ async function run() {
       const user = req.body;
       console.log(user);
       const result = await reviewsCollection.insertOne(user);
-
-      res.json(result);
-    });
-    // POST USERS
-    app.post("/users", async (req, res) => {
-      const user = req.body;
-      console.log(user);
-      const result = await usersCollection.insertOne(user);
 
       res.json(result);
     });
