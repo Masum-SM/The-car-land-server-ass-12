@@ -51,6 +51,14 @@ async function run() {
 
       res.send(cars);
     });
+
+    // new added code
+    app.get("/users", async (req, res) => {
+      const cursor = usersCollection.find({});
+      const cars = await cursor.toArray();
+
+      res.send(cars);
+    });
     // POST USERS
     app.post("/users", async (req, res) => {
       const user = req.body;
@@ -155,7 +163,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("The Car Land assinment-12");
+  res.send("The Car Land assinment12");
 });
 
 app.listen(port, () => {
