@@ -59,14 +59,6 @@ async function run() {
 
       res.send(cars);
     });
-    // POST USERS
-    app.post("/users", async (req, res) => {
-      const user = req.body;
-      console.log(user);
-      const result = await usersCollection.insertOne(user);
-
-      res.json(result);
-    });
 
     // GET ADMIN BY CHECKING ROLE
     app.get("/users/:email", async (req, res) => {
@@ -115,6 +107,14 @@ async function run() {
       const user = req.body;
       console.log(user);
       const result = await reviewsCollection.insertOne(user);
+
+      res.json(result);
+    });
+    // POST USERS
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await usersCollection.insertOne(user);
 
       res.json(result);
     });
