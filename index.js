@@ -25,8 +25,8 @@ async function run() {
     const database = client.db("car_land");
     const carCollection = database.collection("cars");
     const orderCollection = database.collection("orders");
-    const usersCollection = database.collection("users");
     const reviewsCollection = database.collection("reviews");
+    const usersCollection = database.collection("users");
 
     // GET ALL CAR
     app.get("/cars", async (req, res) => {
@@ -44,6 +44,22 @@ async function run() {
       res.json(car);
     });
 
+    // GET ALL ORDERS
+    app.get("/orders", async (req, res) => {
+      const cursor = orderCollection.find({});
+      const cars = await cursor.toArray();
+
+      res.send(cars);
+    });
+    // POST USERS
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await usersCollection.insertOne(user);
+
+      res.json(result);
+    });
+
     // GET ADMIN BY CHECKING ROLE
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
@@ -54,14 +70,6 @@ async function run() {
         isAdmin = true;
       }
       res.json({ admin: isAdmin });
-    });
-
-    // GET ALL ORDERS
-    app.get("/orders", async (req, res) => {
-      const cursor = orderCollection.find({});
-      const cars = await cursor.toArray();
-
-      res.send(cars);
     });
 
     // GET ALL REVIEWS
@@ -91,15 +99,6 @@ async function run() {
     app.post("/orders", async (req, res) => {
       const order = req.body;
       const result = await orderCollection.insertOne(order);
-      res.json(result);
-    });
-
-    // POST USERS
-    app.post("/users", async (req, res) => {
-      const user = req.body;
-      console.log(user);
-      const result = await usersCollection.insertOne(user);
-
       res.json(result);
     });
 
@@ -156,7 +155,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("The Car Land");
+  res.send("The Car Land assinment-12");
 });
 
 app.listen(port, () => {
